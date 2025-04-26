@@ -9,8 +9,8 @@ It features basic **authentication**, a **hospitals list**, and a **booking flow
 
 - React Native (Expo)
 - TypeScript
-- Expo Router (navigation)
-- Axios (API calls)
+- Expo Router (navigation) - used this because expo-router simplifies routing, reduces boilerplate, and is a good choice for Expo-based projects
+- Axios (API calls) - used axios for integrating api calls, it's dev friendly for this short time
 - Mocky (mock API)
 
 ---
