@@ -8,29 +8,39 @@ class ApiService {
   async login(email: string, password: string): Promise<{ token: string; user: User }> {
 
     try {
-        const response = await apiClient.post('https://run.mocky.io/v3/52cd1452-396d-4ea2-b58c-c393853ce496',{
-            email: email,
-            password: password
-        });
-
-        // responseOfMockData = {
-        //     "token": "mocked-jwt-token",
-        //     "user": {
-        //       "id": 1,
-        //       "email": "test@example.com",
-        //       "name": "Test User"
-        //     }
-        //   }
         console.log('====================================');
-        console.log("response.data",response.data);
+        console.log("email,password",email,password);
         console.log('====================================');
-        const { token, user} = response?.data
-        
-        await AsyncStorage.setItem('auth_token', token);
-        await AsyncStorage.setItem('user', JSON.stringify(user));
-        
-        return { token, user };
-        
+        const testEmail = "test@example.com"
+        const testPassword = "abcdefg"
+        if(email == testEmail && password == testPassword){
+            const response = await apiClient.post('https://run.mocky.io/v3/52cd1452-396d-4ea2-b58c-c393853ce496',{
+                email: email,
+                password: password
+            });
+    
+            // responseOfMockData = {
+            //     "token": "mocked-jwt-token",
+            //     "user": {
+            //       "id": 1,
+            //       "email": "test@example.com",
+            //       "name": "Test User"
+            //     }
+            //   }
+            const { token, user} = response?.data
+            if(token && user){
+                await AsyncStorage.setItem('auth_token', token);
+                await AsyncStorage.setItem('user', JSON.stringify(user));
+                return { token, user };
+            }
+            else{
+                throw new Error('Failed to fetch data');
+            } 
+        }
+        else{
+            throw new Error('Invalid email or password');
+        }
+    
       } catch (error) {
         console.log("error",error);
         

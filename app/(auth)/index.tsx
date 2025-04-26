@@ -19,8 +19,8 @@ export default function LoginScreen() {
 //   console.log('====================================');
 //   console.log("checkLoading",loading);
 //   console.log('====================================');
-  const [email, setEmail] = useState('test@gmail.com'); 
-  const [password, setPassword] = useState('password');
+  const [email, setEmail] = useState(''); 
+  const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
 
@@ -76,7 +76,7 @@ export default function LoginScreen() {
           
           <InputField
             label="Email"
-            placeholder="Enter your email"
+            placeholder="test@example.com"
             keyboardType="email-address"
             value={email}
             onChangeText={setEmail}
@@ -85,7 +85,7 @@ export default function LoginScreen() {
           
           <InputField
             label="Password"
-            placeholder="Enter your password"
+            placeholder="abcdefg"
             secureTextEntry
             value={password}
             onChangeText={setPassword}

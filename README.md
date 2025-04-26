@@ -4,6 +4,11 @@ This is a simple **Booking Application** built with **React Native** and **Expo*
 It features basic **authentication**, a **hospitals list**, and a **booking flow** using **mocked APIs**.
 
 ---
+## Testing Credentials
+testEmail = "test@example.com"
+testPassword = "abcdefg"
+
+---
 
 ## 🚀 Tech Stack
 
