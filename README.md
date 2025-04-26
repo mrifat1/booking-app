@@ -38,6 +38,18 @@ Use mocky.io to generate your mock api with the provided data and place that in 
 
 ---
 
+## 🛠 Get started
+
+1. Install dependencies
+
+   ```npm install```
+
+2. Start the app
+
+   ```npx expo start```
+
+---
+
 ## 🛠 Axios Setup
 
 - Axios instance configured separately in `services/api.ts`.
@@ -57,12 +69,4 @@ const api = axios.create({
 
 export default api;
 
-## 🛠 Get started
 
-1. Install dependencies
-
-   ```npm install```
-
-2. Start the app
-
-   ```npx expo start```
