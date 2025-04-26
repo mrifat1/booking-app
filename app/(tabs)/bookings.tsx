@@ -30,7 +30,7 @@ export default function BookingsScreen() {
       
       const allHospitals = await apiService.fetchHospitals();
       const hospitalDictionary: Record<string, Hospital> = {};
-      allHospitals.forEach(hospital => {
+      allHospitals.forEach((hospital: Hospital) => {
         hospitalDictionary[hospital.id] = hospital;
       });
       setHospitalMap(hospitalDictionary);
@@ -145,7 +145,6 @@ export default function BookingsScreen() {
         data={bookings}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContent}
-        style={{paddingBottom: 40}}
         renderItem={({ item }) => 
             renderBookingCard(item)
         }
@@ -180,6 +179,7 @@ const styles = StyleSheet.create({
   },
   listContent: {
     padding: 16,
+    paddingBottom: 40
   },
   bookingCard: {
     backgroundColor: '#fff',
