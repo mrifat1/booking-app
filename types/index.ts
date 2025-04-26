@@ -28,4 +28,13 @@ export interface User {
     price: number;
     duration: string;
   }
+
+  export interface Booking {
+    id: string;
+    userId: string;
+    hospitalId: string;
+    serviceId: string;
+    date: string;
+    status: 'pending' | 'confirmed' | 'cancelled';
+  }
   

@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { MapPin, Star } from 'lucide-react-native';
 import { Hospital } from '@/types';
+import { router } from 'expo-router';
 
 interface HospitalCardProps {
   hospital: Hospital;
@@ -9,9 +10,14 @@ interface HospitalCardProps {
 
 const HospitalCard: React.FC<HospitalCardProps> = ({ hospital }) => {
 
+    const navigateToDetail = () => {
+        router.push(`/hospital/${hospital.id}`);
+      };
+
   return (
     <TouchableOpacity 
-      style={styles.card} 
+      style={styles.card}
+      onPress={navigateToDetail} 
       activeOpacity={0.8}
     >
       <Image 
