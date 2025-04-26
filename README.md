@@ -1,50 +1,55 @@
-# Welcome to your Expo app 👋
+# Booking App (React Native - Expo)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is a simple **Booking Application** built with **React Native** and **Expo**.  
+It features basic **authentication**, a **hospitals list**, and a **booking flow** using **mocked APIs**.
 
-## Get started
+---
 
-1. Install dependencies
+## 🚀 Tech Stack
 
-   ```bash
-   npm install
-   ```
+- React Native (Expo)
+- TypeScript
+- Expo Router (navigation)
+- Axios (API calls)
+- Mocky (mock API)
 
-2. Start the app
+---
 
-   ```bash
-    npx expo start
-   ```
+## 📚 Features
 
-In the output, you'll find options to open the app in a
+- **Login Screen**:  
+  User can log in using email and password (mocked API).
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- **Hospitals List**:  
+  Fetches and displays a list of hospitals.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- **Booking Flow**:  
+  Allows booking simulation for hospital services.
 
-## Get a fresh project
+---
 
-When you're ready, run:
+## 🔗 Mock API (Mocky)
 
-```bash
-npm run reset-project
-```
+- **Login API**: POST call with `email` and `password`.
+- **Hospitals API**: GET call to fetch a list of hospitals.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## 🛠 Axios Setup
 
-To learn more about developing your project with Expo, look at the following resources:
+- Axios instance configured separately in `services/api.ts`.
+- Easy to switch between different base URLs.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Example:
 
-## Join the community
+```typescript
+import axios from 'axios';
 
-Join our community of developers creating universal apps.
+const api = axios.create({
+  baseURL: 'https://run.mocky.io/v3', 
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+export default api;
