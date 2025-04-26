@@ -26,6 +26,9 @@ It features basic **authentication**, a **hospitals list**, and a **booking flow
 - **Booking Flow**:  
   Allows booking simulation for hospital services.
 
+- **Profile Screen**:  
+  Added user details and Logout features there
+
 ---
 
 ## 🔗 Mock API (Mocky)
