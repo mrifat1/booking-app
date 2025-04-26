@@ -1,6 +1,7 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { User } from '@/types';
+import { Hospital, User } from '@/types';
+import { hospitals } from './mockData';
 
 class ApiService {
   async login(email: string, password: string): Promise<{ token: string; user: User }> {
@@ -41,6 +42,11 @@ class ApiService {
     }
     
     return null;
+  }
+
+  async fetchHospitals(): Promise<Hospital[]> {
+    await new Promise(resolve => setTimeout(resolve, 800));
+    return hospitals;
   }
 }
 

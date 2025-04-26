@@ -1,74 +1,153 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { Image, StyleSheet, Platform, View, Text, TextInput, FlatList, SafeAreaView } from 'react-native';
+import { Search } from 'lucide-react-native';
+import { useEffect, useState } from 'react';
+import { Hospital } from '@/types';
+import { useAuth } from '@/context/AuthContext';
+import EmptyState from '@/components/EmptyState';
+import HospitalCard from '@/components/HospitalCard';
+import apiService from '@/services/api';
+import LoadingIndicator from '@/components/LoadingIndicator';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 
-export default function HomeScreen() {
+export default function HospitalsScreen() {
+  const { user } = useAuth();
+  const [hospitals, setHospitals] = useState<Hospital[]>([]);
+  const [filteredHospitals, setFilteredHospitals] = useState<Hospital[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    const fetchHospitals = async () => {
+      try {
+        const data = await apiService.fetchHospitals();
+        setHospitals(data);
+        setFilteredHospitals(data);
+      } catch (err) {
+        setError('Failed to load hospitals. Please try again later.');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHospitals();
+  }, []);
+
+  useEffect(() => {
+    if (searchQuery.trim() === '') {
+      setFilteredHospitals(hospitals);
+    } else {
+      const filtered = hospitals.filter(hospital => 
+        hospital.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        hospital.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        hospital.services.some(service => 
+          service.name.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      );
+      setFilteredHospitals(filtered);
+    }
+  }, [searchQuery, hospitals]);
+
+  if (loading) {
+    return <LoadingIndicator message="Loading hospitals..." />;
+  }
+
+  if (error) {
+    return (
+      <EmptyState
+        title="Something went wrong"
+        message={error}
+      />
+    );
+  }
+
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.greeting}>Hello, {user?.name || 'User'}!</Text>
+        <Text style={styles.title}>Find Hospitals</Text>
+      </View>
+
+      <View style={styles.searchContainer}>
+        <Search size={20} color="#777" style={styles.searchIcon} />
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search hospitals or services"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          placeholderTextColor="#999"
         />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+      </View>
+
+      {filteredHospitals.length === 0 ? (
+        <EmptyState
+          title="No hospitals found"
+          message={searchQuery ? `No results for "${searchQuery}"` : "No hospitals available at the moment."}
+        />
+      ) : (
+        <FlatList
+          data={filteredHospitals}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => <HospitalCard hospital={item} />}
+          contentContainerStyle={styles.listContent}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+    backgroundColor: '#f8f9fa',
+  },
+  header: {
+    padding: 24,
+    paddingTop: 60,
+    backgroundColor: '#fff',
+  },
+  greeting: {
+    fontSize: 16,
+    color: '#666',
+    marginBottom: 8,
+    fontFamily: 'Inter-Regular',
+  },
+  title: {
+    fontSize: 24,
+    fontFamily: 'Inter-Bold',
+    color: '#2E384D',
+  },
+  searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    backgroundColor: '#fff',
+    marginHorizontal: 16,
+    marginTop: -16,
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    height: 48,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 3,
+    elevation: 2,
+    marginBottom: 16,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  searchIcon: {
+    marginRight: 8,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  searchInput: {
+    flex: 1,
+    height: '100%',
+    fontSize: 16,
+    fontFamily: 'Inter-Regular',
+    color: '#333',
+  },
+  listContent: {
+    padding: 16,
+    paddingTop: 8,
   },
 });

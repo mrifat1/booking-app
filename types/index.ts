@@ -11,4 +11,21 @@ export interface User {
     loading: boolean;
     error: string | null;
   }
+
+  export interface Hospital {
+    id: string;
+    name: string;
+    address: string;
+    imageUrl: string;
+    rating: number;
+    services: Service[];
+  }
+
+  export interface Service {
+    id: string;
+    name: string;
+    description: string;
+    price: number;
+    duration: string;
+  }
   
