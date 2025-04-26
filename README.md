@@ -32,6 +32,9 @@ It features basic **authentication**, a **hospitals list**, and a **booking flow
 
 - **Login API**: POST call with `email` and `password`.
 - **Hospitals API**: GET call to fetch a list of hospitals.
+- **Mock Data**: There are a file in the project named mockData.
+You can get the mock response of login api, hospitals list and booking status api response there.
+Use mocky.io to generate your mock api with the provided data and place that in api.ts file in every api call.
 
 ---
 
