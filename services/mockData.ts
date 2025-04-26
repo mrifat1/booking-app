@@ -1,5 +1,16 @@
 import { Hospital, Booking } from '@/types';
 
+
+//Mock Login Response Data
+// export const mockLoginData = {
+//     "token": "mocked-jwt-token",
+//     "user": {
+//       "id": 1,
+//       "email": "test@example.com",
+//       "name": "Test User"
+//     }
+// }
+
 // Mock Hospital Data
 export const hospitals: Hospital[] = [
   {
